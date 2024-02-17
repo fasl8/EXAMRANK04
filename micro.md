@@ -22,4 +22,10 @@ int ft_execute(char **argv, int i, int tmp_fd, char **env)
 5. ``` argv[i] = NULL; ``` sets the element in the argv array at index i to NULL.
 6. ``` close(tmp_fd); ``` closes the file descriptor tmp_fd
 7. ``` execve(argv[0], argv, env); ``` execute the command specified in argv[0], It replaces the current process image with a new process image as specified by the given command
-8. 
+```
+    ft_putstr_fd2("error: cannot execute ");
+    ft_putstr_fd2(argv[0]);
+    write(2, "\n", 1);
+```
+8. If execve fails->prints an error message to the standard error output (file descriptor 2)
+9. ``` return (1); ``` returns 1 to indicate that there was an error during command execution. 

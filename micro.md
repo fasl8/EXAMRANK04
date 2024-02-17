@@ -29,3 +29,5 @@ int ft_execute(char **argv, int i, int tmp_fd, char **env)
 ```
 8. If execve fails->prints an error message to the standard error output (file descriptor 2)
 9. ``` return (1); ``` returns 1 to indicate that there was an error during command execution. 
+
+# 

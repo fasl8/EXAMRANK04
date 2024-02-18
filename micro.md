@@ -30,4 +30,11 @@ int ft_execute(char **argv, int i, int tmp_fd, char **env)
 8. If execve fails->prints an error message to the standard error output (file descriptor 2)
 9. ``` return (1); ``` returns 1 to indicate that there was an error during command execution. 
 
-# 
+# main
+```
+int main(int argc, char **argv, char **env)
+{
+```
+1. argc :the number of command-line arguments
+2. **argv :command-line arguments
+3. **env (an array of strings containing the environment variables).

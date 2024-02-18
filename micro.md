@@ -120,4 +120,34 @@ else if (argv != &argv[i] && strcmp(argv[i], "|") == 0)
 22. ``` pipe(fd); ``` creates a pipe using the pipe(), allowing the output of one process to be connected to the input of another.
 23. ``` pid = fork(); ``` forks a child process.
 # child process:
-24. 
+24. sets up the input redirection using dup2 to make the temporary file descriptor tmp_fd a duplicate of the standard input file descriptor STDIN_FILENO. sets up the output redirection using dup2 to make the write end of the pipe fd[1] a duplicate of the standard output file descriptor STDOUT_FILENO. closes the read end of the pipe (fd[0]) and the write end of the pipe (fd[1]). ft_execute to execute the current command. If execution fails, it returns 1, indicating an error.
+```
+if (pid == 0)
+{
+    dup2(tmp_fd, STDIN_FILENO);
+    dup2(fd[1], STDOUT_FILENO);
+    close(fd[0]);
+    close(fd[1]);
+    if (ft_execute(argv, i , tmp_fd, env))
+        return (1);
+}
+```
+# parent process:
+25. closes the write end of the pipe (fd[1]), closes the temporary file descriptor tmp_fd , waits for the child process to finish using waitpid. reads from the read end of the pipe (fd[0]) and duplicates it to tmp_fd for the next command to be executed. closes the read end of the pipe (fd[0]).
+```
+else
+{
+    close(fd[1]);
+    close(tmp_fd);
+    waitpid(-1, NULL, WUNTRACED);
+    tmp_fd = dup(fd[0]);
+    close(fd[0]);
+}
+```
+26.  closes the temporary file descriptor tmp_fd and returns 0
+```
+    close(tmp_fd);
+    return (0);
+}
+```
+
